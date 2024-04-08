@@ -1,0 +1,43 @@
+import requests
+from bs4 import BeautifulSoup 
+
+
+
+# Specify the URL
+url = 'https://www.ewrc-results.com/final/80236-rally-guanajuato-mexico-2023/'
+url2 = 'https://es.wikipedia.org/wiki/Rally_M%C3%A9xico_de_2023'
+html = requests.get(url)
+html2 = requests.get(url2)
+
+
+
+# Parse the HTML
+s = BeautifulSoup(html.content, 'html.parser')  
+s2 = BeautifulSoup(html2.content, 'html.parser' )
+
+# Find the main element on the webpage
+results = s.find(class_='final-results')
+results2 = s2.find(class_ = 'wikitable plainrowheaders sortable jquery-tablesorter')
+
+# Find all the elements for finishing place, driver number, driver-co-driver names, and car model
+finishingPlace = results.find_all('td', class_='font-weight-bold text-left')
+driverNumber = results.find_all('td', class_='final-results-number text-left text-primary font-weight-bold')
+driver_codriver_names = results.find_all('a')
+car = results.find_all('td', class_='final-results-car font-weight-bold')
+rc_type = results.find_all('td', class_ = 'final-results-cat fs-091')
+
+araba = results.find_all('a')
+
+print(araba.text.strip())
+
+# Iterate over all the lists simultaneously using zip()
+for place, number, names, car_info, rc_info in zip(finishingPlace, driverNumber, driver_codriver_names, car, rc_type):
+    # Strip the text and format it
+    place_text = place.text.strip()
+    number_text = number.text.strip()
+    names_text = ' - '.join([name.strip() for name in names.text.strip().split(' - ')])
+    car_text = car_info.text.strip()
+    rc_text = rc_info.text.strip()
+    
+    # Print the formatted output
+    print(f"{place_text}    {number_text}    {names_text}    {rc_text}")
