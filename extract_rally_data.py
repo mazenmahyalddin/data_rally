@@ -45,7 +45,10 @@ for place, number, names, rc_info, timing, time_difference in zip(finishingPlace
 
     data.append([place_text, number_text, names_text, rc_text, time_text, time_difference_text])
     # Print the formatted output
-    print(f"{place_text}    {number_text}    {names_text}    {time_text}     {time_difference_text}")
+    #print(f"{place_text}    {number_text}    {names_text}    {time_text}     {time_difference_text}")
 
+# Create a pandas DataFrame
 df = pd.DataFrame(data, columns=['Finishing Place', 'Driver Number', 'Driver-Co-Driver Names', 'RC Type', 'Finish Time', 'Time Difference'])
-df.to_excel('rally_results.xlsx', index=False)
+#df.to_excel('rally_results.xlsx', index=False)
+
+df.to_csv('rally_results.csv', index=False)
