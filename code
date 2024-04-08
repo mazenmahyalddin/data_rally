@@ -23,21 +23,20 @@ results2 = s2.find(class_ = 'wikitable plainrowheaders sortable jquery-tablesort
 finishingPlace = results.find_all('td', class_='font-weight-bold text-left')
 driverNumber = results.find_all('td', class_='final-results-number text-left text-primary font-weight-bold')
 driver_codriver_names = results.find_all('a')
-car = results.find_all('td', class_='final-results-car font-weight-bold')
 rc_type = results.find_all('td', class_ = 'final-results-cat fs-091')
+finish_time = results.find_all('td', class_ = 'font-weight-bold text-right final-results-times')
+times_diff = results.find_all('td', class_ = 'font-weight-bold text-right final-results-int')
 
-araba = results.find_all('a')
-
-print(araba.text.strip())
 
 # Iterate over all the lists simultaneously using zip()
-for place, number, names, car_info, rc_info in zip(finishingPlace, driverNumber, driver_codriver_names, car, rc_type):
+for place, number, names, rc_info, timing, time_difference in zip(finishingPlace, driverNumber, driver_codriver_names, rc_type, finish_time, times_diff):
     # Strip the text and format it
     place_text = place.text.strip()
     number_text = number.text.strip()
     names_text = ' - '.join([name.strip() for name in names.text.strip().split(' - ')])
-    car_text = car_info.text.strip()
     rc_text = rc_info.text.strip()
-    
+    time_text = timing.text.strip()
+    time_difference_text = time_difference.text.strip() 
+
     # Print the formatted output
-    print(f"{place_text}    {number_text}    {names_text}    {rc_text}")
+    print(f"{place_text}    {number_text}    {names_text}    {time_text}     {time_difference_text}")
