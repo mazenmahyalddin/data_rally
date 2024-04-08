@@ -1,7 +1,6 @@
-# You have to run this file in the terminal to get the results in the excel file
+#This code runs in the VS code terminal and prints the results of the rally in Mexico 2023
 
 import requests
-import pandas as pd
 from bs4 import BeautifulSoup 
 
 
@@ -31,8 +30,6 @@ finish_time = results.find_all('td', class_ = 'font-weight-bold text-right final
 times_diff = results.find_all('td', class_ = 'font-weight-bold text-right final-results-int')
 
 
-data = []
-
 # Iterate over all the lists simultaneously using zip()
 for place, number, names, rc_info, timing, time_difference in zip(finishingPlace, driverNumber, driver_codriver_names, rc_type, finish_time, times_diff):
     # Strip the text and format it
@@ -43,9 +40,5 @@ for place, number, names, rc_info, timing, time_difference in zip(finishingPlace
     time_text = timing.text.strip()
     time_difference_text = time_difference.text.strip() 
 
-    data.append([place_text, number_text, names_text, rc_text, time_text, time_difference_text])
     # Print the formatted output
     print(f"{place_text}    {number_text}    {names_text}    {time_text}     {time_difference_text}")
-
-df = pd.DataFrame(data, columns=['Finishing Place', 'Driver Number', 'Driver-Co-Driver Names', 'RC Type', 'Finish Time', 'Time Difference'])
-df.to_excel('rally_results.xlsx', index=False)
