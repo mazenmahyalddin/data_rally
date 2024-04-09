@@ -8,19 +8,15 @@ from bs4 import BeautifulSoup
 
 # Specify the URL
 url = 'https://www.ewrc-results.com/final/80236-rally-guanajuato-mexico-2023/'
-url2 = 'https://es.wikipedia.org/wiki/Rally_M%C3%A9xico_de_2023'
 html = requests.get(url)
-html2 = requests.get(url2)
-
 
 
 # Parse the HTML
 s = BeautifulSoup(html.content, 'html.parser')  
-s2 = BeautifulSoup(html2.content, 'html.parser' )
 
 # Find the main element on the webpage
 results = s.find(class_='final-results')
-results2 = s2.find(class_ = 'wikitable plainrowheaders sortable jquery-tablesorter')
+
 
 # Find all the elements for finishing place, driver number, driver-co-driver names, and car model
 finishingPlace = results.find_all('td', class_='font-weight-bold text-left')
@@ -49,6 +45,7 @@ for place, number, names, rc_info, timing, time_difference in zip(finishingPlace
 
 # Create a pandas DataFrame
 df = pd.DataFrame(data, columns=['Finishing Place', 'Driver Number', 'Driver-Co-Driver Names', 'RC Type', 'Finish Time', 'Time Difference'])
-#df.to_excel('rally_results.xlsx', index=False)
 
+# Save the DataFrame to an Excel/CSV file
+#df.to_excel('rally_results.xlsx', index=False)
 df.to_csv('rally_results.csv', index=False)
